@@ -1,87 +1,54 @@
 <h1 align="center">
-  <img src="https://avatars1.githubusercontent.com/u/29598503?v=3&s=256" alt="[Project]">
+  <img src="snap/gui/ade2.png" alt="ADEv2">
   <br />
-  [Project]
+  Adobe Digital Editions 2.0.1
 </h1>
 
-<p align="center"><b>This is the snap for [Project]</b>, <i>“Single-line elevator pitch for your amazing snap”</i>. It works on Ubuntu, Fedora, Debian, and other major Linux
+<p align="center"><b>This is the snap for Adobe Digital Editions v2.0.1</b>. It works on Ubuntu, Fedora, Debian, and other major Linux
 distributions.</p>
 
-<!-- Uncomment and modify this when you are provided a build status badge
-<p align="center">
-<a href="https://build.snapcraft.io/user/snapcrafters/fork-and-rename-me"><img src="https://build.snapcraft.io/badge/snapcrafters/fork-and-rename-me.svg" alt="Snap Status"></a>
-</p>
--->
-
-<!-- Uncomment and modify this when you have a screenshot
-![my-snap-name](screenshot.png?raw=true "my-snap-name")
--->
-
-<p align="center">Published for <img src="https://raw.githubusercontent.com/anythingcodes/slack-emoji-for-techies/gh-pages/emoji/tux.png" align="top" width="24" /> with 💝 by Snapcrafters</p>
+<p align="center">Published for <img src="http://anything.codes/slack-emoji-for-techies/emoji/tux.png" align="top" width="24" /> with :gift_heart: by Snapcrafters</p>
 
 ## Install
 
-    sudo snap install my-snap-name
-
-<!-- Uncomment and modify this when your snap is available on the store
-[![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-white.svg)](https://snapcraft.io/my-snap-name)
--->
+    snap install ade2
 
 ([Don't have snapd installed?](https://snapcraft.io/docs/core/install))
 
-## Remaining tasks
-<!-- Uncomment and modify this when you have a screenshot
-![my-snap-name](screenshot.png?raw=true "my-snap-name")
--->
+![Adobe Digital Editions v2.0.1](screenshot.png?raw=true "Adobe Digital Editions v2.0.1")
 
-Snapcrafters ([join us](https://forum.snapcraft.io/t/join-snapcrafters/1325)) 
-are working to land snap install documentation and
-the [snapcraft.yaml](https://github.com/snapcrafters/fork-and-rename-me/blob/master/snap/snapcraft.yaml)
-upstream so [Project] can authoritatively publish future releases.
+## Reusing this snap
 
-  - [x] Fork the [Snapcrafters template](https://github.com/snapcrafters/fork-and-rename-me) repository to your own GitHub account.
-    - If you have already forked the Snapcrafter template to your account and want to create another snap, you'll need to use GitHub's [Import repository](https://github.com/new/import) feature because you can only fork a repository once.
-  - [ ] Rename the forked Snapcrafters template repository
-  - [ ] Update the description of the repository
-  - [ ] Update logos and references to `[Project]` and `[my-snap-name]`
-  - [ ] Create a snap that runs in `devmode`
-  - [ ] Register the snap in the store, **using the preferred upstream name**
-  - [ ] Add a screenshot to this `README.md`
-  - [ ] Publish the `devmode` snap in the Snap store edge channel
-  - [ ] Add install instructions to this `README.md`
-  - [ ] Update snap store metadata, icons and screenshots
-  - [ ] Convert the snap to `strict` confinement, or `classic` confinement if it qualifies
-  - [ ] Publish the confined snap in the Snap store beta channel
-  - [ ] Update the install instructions in this `README.md`
-  - [ ] Post a call for testing on the [Snapcraft Forum](https://forum.snapcraft.io) - [link]()
-  - [ ] Make a post in the [Snapcraft Forum](https://forum.snapcraft.io) asking for a transfer of the snap name from you to snapcrafters - [link]()
-  - [ ] Ask a [Snapcrafters admin](https://github.com/orgs/snapcrafters/people?query=%20role%3Aowner) to fork your repo into github.com/snapcrafters, and configure the repo for automatic publishing into edge on commit
-  - [ ] Add the provided Snapcraft build badge to this `README.md`
-  - [ ] Publish the snap in the Snap store stable channel
-  - [ ] Update the install instructions in this `README.md`
-  - [ ] Post an announcement in the [Snapcraft Forum](https://forum.snapcraft.io) - [link]()
-  - [ ] Submit a pull request or patch upstream that adds snap install documentation - [link]()
-  - [ ] Submit a pull request or patch upstream that adds the `snapcraft.yaml` and any required assets/launchers - [link]()
-  - [ ] Add upstream contact information to the `README.md`  
-  - If upstream accept the PR:
-    - [ ] Request upstream create a Snap store account
-    - [ ] Contact the Snap Advocacy team to request the snap be transferred to upstream
-  - [ ] Ask the Snap Advocacy team to celebrate the snap - [link]()
+You can use this snap as a reference for creating snaps of other WINE
+compatible 32-bit Windows applications or games. Here are the main
+things you'll need to modify:
 
-If you have any questions, [post in the Snapcraft forum](https://forum.snapcraft.io).
+  * Change the meta data and `apps:` and `parts:` names from `tsun`.
+  * Modify the `command:` to reference the executable the application/game should launch.
+  * If you can't redistrbute the application/game use `INSTALL_URL:` to reference a web accessible installer.
+  * Modify the `install_app()` and `launch_app()` functions in [`snap/scripts/sommelier`](snap/scripts/sommelier) to suit the application/game you're snapping.
+  * Modify the `TITLE` and `NOTICE` in [`snap/scripts/sommelier`](snap/scripts/sommelier) to suit the application/game you're snapping.
+  * If you can't redistrbute the application/game use `INSTALL_URL:` in the `environment:` of the main `command:` to reference a web accessible installer.
+  * Some games require a virtual desktop to function correctly. Add `VIRTDESKTOP: 1` to the `environment:` of the main `command:` to enable virtual desktop or set it to `0` or remove it completely to disable a virtual desktop.
+  * Some applications/games require that WINE DLLs are overriden, you can specify then via `DLLOVERRIDES:` in the `environment:` of the main `command:`.
+  * If the application/game requires some winetricks to work then you can specify them via `TRICKS:` in the `environment:` of the main `command:`.
 
-<!--
-## The Snapcrafters
+Here's an example `environment:` that shows how to use some of the capabilities outlined above:
 
-| [![Your Name](https://gravatar.com/avatar/bc0bced65e963eb5c3a16cab8b004431/?s=128)](https://github.com/yourname/) |
-| :---: |
-| [Your Name](https://github.com/yourname/) |
---> 
+```
+    environment:
+      WINEPREFIX: "$SNAP_USER_COMMON/.wine"
+      DLLOVERRIDES: "mscoree,mshtml=" # Prevent pop-ups about Wine Mono and Wine Gecko
+      INSTALL_URL: "https://www.xyz.com/setup.exe"
+      TRICKS: "winxp corefonts d3dx9_43"
+      VIRTDESKTOP: 1
+      LC_ALL: "C.UTF-8"
+```
 
-<!-- Uncomment and modify this when you have upstream contacts
-## Upstream
+One other point of interest is that `yad` is staged in the snap and a
+faux `zenity` script is included that execs `yad`. We do this because
+`yad` is argument compatible with `zenity` but pulls far fewer package
+dependencies.
 
-| [![Upstream Name](https://gravatar.com/avatar/bc0bced65e963eb5c3a16cab8b004431?s=128)](https://github.com/upstreamname) |
-| :---: |
-| [Upstream Name](https://github.com/upstreamname) |
--->
+If you have any questions about creating snaps of WINE compatible
+Windows applications then [post in the Snapcraft forum](https://forum.snapcraft.io).

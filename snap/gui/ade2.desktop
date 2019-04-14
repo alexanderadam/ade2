@@ -1,0 +1,12 @@
+[Desktop Entry]
+Name=Adobe Digital Editions
+GenericName=Epub Reader
+Type=Application
+Categories=Education
+Encoding=UTF-8
+Exec=ade2
+Icon=${SNAP}/meta/gui/ade2.png
+Comment=Adobe Digital Editions v2.0.1 soaked in WINE and Snapped for Linux.
+StartupNotify=true
+Terminal=false
+Version=1.0
