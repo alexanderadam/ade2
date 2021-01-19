@@ -1,8 +1,7 @@
-name: ade2
-version: '2.0.1'
-summary: Adobe Digital Editions v2 under WINE
-description: |
-  Adobe Digital Editions v2.0.1 soaked in WINE and Snapped for Linux.
+name: adobe-digital-editions
+version: '4.5.0'
+summary: "Adobe Digital Editions under WINE"
+description: "Adobe Digital Editions soaked in WINE and Snapped for Linux."
 
 grade: stable
 #confinement: strict ## switch for prod
@@ -13,36 +12,50 @@ architectures:
 base: core18
 
 plugs:
-  wine-platform-plug:
-    content: wine-base-stable
+  wine-runtime:
+    interface: content
+    target: $SNAP/wine-runtime
+    default-provider: wine-platform-runtime
+  wine-5-stable:
     interface: content
     target: $SNAP/wine-platform
-    default-provider: wine-platform
+    default-provider: wine-platform-5-stable
   icon-themes:
     interface: content
     target: $SNAP/data-dir/icons
     default-provider: gtk-common-themes
 
+environment:
+  WINEARCH: "win32"
+  WINEDLLOVERRIDES: "mscoree,mshtml="   # Prevent pop-ups about Wine Mono and Wine Gecko
+
 apps:
-  ade2:
-    command: |
-      bin/sommelier "$(find $WINEPREFIX/ -type f -name 'DigitalEditions.exe') 2>/dev/null)"
+  adobe-digital-editions:
+    extensions: [ gnome-3-28 ]
+    command: "bin/sommelier run-exe"
     environment:
+      RUN_EXE: "C:/Program Files/Adobe/Adobe Digital Editions 4.5/DigitalEditions.exe"
       WINEPREFIX: "$SNAP_USER_COMMON/.wine"
-      DLLOVERRIDES: "mscoree=n;mshtml=;winemenubuilder.exe=d;*windowscodecs=n;*windowscodecsext=n;" # Prevent pop-ups about Wine Gecko
-      INSTALL_URL: "http://download.adobe.com/pub/adobe/digitaleditions/ADE_2.0_Installer.exe" # ade2 full setup
-      TRICKS: "corefonts windowscodecs winxp dotnet35sp1"
+      INSTALL_URL: "https://adedownload.adobe.com/pub/adobe/digitaleditions/ADE_4.5_Installer.exe" # ade2 full setup
+      TRICKS: "corefonts dotnet45 msvc100"
       VIRTDESKTOP: 0
       LC_ALL: "C.UTF-8"
-    plugs: 
+      SOMMELIER_KEEP_CWD: 1  # Don't change the working directory so relative paths still work
+    plugs:
       - desktop
       - desktop-legacy
       - home
       - network
+      - removable-media
       - opengl
       - wayland
-      - wine-platform-plug
       - x11
+  wine:
+    extensions: [ gnome-3-28 ]
+    command: bin/sommelier
+    plugs:
+      - home
+      - network
   wineboot:
     command: bin/sommelier $SNAP/wine-platform/wine-stable/bin/wineboot
     environment:
@@ -64,25 +77,22 @@ apps:
       - wayland
       - x11
   winetricks:
-    command: bin/sommelier $SNAP/wine-platform/bin/winetricks prefix="$WINEPREFIX"
+    command: bin/sommelier winetricks
     environment:
       WINEPREFIX: "$SNAP_USER_COMMON/.wine"
       DLLOVERRIDES: "mshtml=;winemenubuilder.exe=d" # Prevent pop-ups about Wine Gecko
       LC_ALL: "C.UTF-8"
     plugs:
-      - desktop
-      - desktop-legacy
       - network
-      - wayland
-      - x11
 
 parts:
-  ade2:
+  adobe-digital-editions:
     plugin: dump
     source: scripts
     override-build: |
       snapcraftctl build
       set -ex
       mkdir -p $SNAPCRAFT_PART_INSTALL/wine-platform
+      mkdir -p $SNAPCRAFT_PART_INSTALL/.wine
     organize:
       'sommelier': bin/

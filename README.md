@@ -1,21 +1,36 @@
 <h1 align="center">
-  <img src="snap/gui/ade2.png" alt="ADEv2">
+  <img src="snap/gui/ade2.png" alt="Adobe Digital Editions logo">
   <br />
-  Adobe Digital Editions 2.0.1
+  Adobe Digital Editions
 </h1>
 
-<p align="center"><b>This is the snap for Adobe Digital Editions v2.0.1</b>. It works on Ubuntu, Fedora, Debian, and other major Linux
-distributions.</p>
+<p align="center"><b>This is the snap for Adobe Digital Editions</b>. It works on Ubuntu, Fedora, Debian, and other major Linux distributions.</p>
 
 <p align="center">Published for <img src="http://anything.codes/slack-emoji-for-techies/emoji/tux.png" align="top" width="24" /> with :gift_heart: by Snapcrafters</p>
 
 ## Install
 
-    snap install ade2
+```
+$ snap install adobe-digital-editions
+```
+
+or use a local installation with
+
+
+```
+$ git clone https://github.com/ideologysec/ade2.git
+$ cd ade2/
+$ snap install --classic snapcraft
+$ snap install wine-platform-runtime
+$ SNAPCRAFT_BUILD_ENVIRONMENT=host snapcraft
+$ snap install --devmode adobe-digital-editions_4.5.0_multi.snap
+```
+
+Afterwards you can use `snap run adobe-digital-editions` to run Adobe Digital Editions.
 
 ([Don't have snapd installed?](https://snapcraft.io/docs/core/install))
 
-![Adobe Digital Editions v2.0.1](screenshot.png?raw=true "Adobe Digital Editions v2.0.1")
+![Adobe Digital Editions](screenshot.png?raw=true "Adobe Digital Editions")
 
 ## Reusing this snap
 
